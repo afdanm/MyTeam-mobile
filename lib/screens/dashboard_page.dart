@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'account_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -11,46 +12,80 @@ class DashboardPage extends StatelessWidget {
         children: [
           /// ================= HEADER =================
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
             width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 40,
+            ),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF7F7FD5), Color(0xFF86A8E7)],
+                colors: [
+                  Color(0xFF7F7FD5),
+                  Color(0xFF86A8E7),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
             child: Column(
               children: [
-                /// Top Row
+                /// Top Row (Profile - Date - Group)
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person, color: Colors.deepPurple),
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// PROFILE BUTTON
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const AccountPage(),
+                          ),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        radius: 22,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
                     ),
-                    Text(
+
+                    const Text(
                       "20 Jan",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
-                    CircleAvatar(
+
+                    const CircleAvatar(
                       radius: 22,
                       backgroundColor: Colors.white,
-                      child: Icon(Icons.group, color: Colors.deepPurple),
+                      child: Icon(
+                        Icons.group,
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ],
                 ),
 
                 const SizedBox(height: 50),
 
-                /// Greeting
+                /// Greeting + Add Board
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.end,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: const [
                         Text(
                           "Hi, Abuy",
@@ -60,19 +95,26 @@ class DashboardPage extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
+                        SizedBox(height: 5),
                         Text(
                           "4 Task",
-                          style:
-                              TextStyle(color: Colors.white70, fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white70,
+                          ),
                         ),
                       ],
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding:
+                          const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius:
+                            BorderRadius.circular(12),
                       ),
                       child: const Text(
                         "+ Add Board",
@@ -91,19 +133,25 @@ class DashboardPage extends StatelessWidget {
           /// ================= BODY =================
           Expanded(
             child: Container(
-              padding: const EdgeInsets.all(24),
+              padding:
+                  const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 24),
               decoration: const BoxDecoration(
                 color: Color(0xFFEFEFEF),
-                borderRadius: BorderRadius.vertical(
+                borderRadius:
+                    BorderRadius.vertical(
                   top: Radius.circular(30),
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   /// My Team + Search
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         "My Team",
@@ -114,15 +162,19 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ),
                       CircleAvatar(
-                        backgroundColor: Colors.deepPurple,
-                        child: const Icon(Icons.search, color: Colors.white),
-                      )
+                        backgroundColor:
+                            Colors.deepPurple,
+                        child: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
 
                   const SizedBox(height: 24),
 
-                  /// List Project
+                  /// Project List
                   Expanded(
                     child: ListView(
                       children: const [
@@ -156,18 +208,18 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-/// ================= PROJECT CARD WIDGET =================
+/// ================= PROJECT CARD =================
 class ProjectCard extends StatelessWidget {
   final String title;
   final String desc;
@@ -187,21 +239,30 @@ class ProjectCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: isPrimary
             ? const LinearGradient(
-                colors: [Color(0xFF7F7FD5), Color(0xFF86A8E7)],
+                colors: [
+                  Color(0xFF7F7FD5),
+                  Color(0xFF86A8E7),
+                ],
               )
             : null,
-        color: isPrimary ? null : const Color(0xFFDADAF7),
-        borderRadius: BorderRadius.circular(20),
+        color: isPrimary
+            ? null
+            : const Color(0xFFDADAF7),
+        borderRadius:
+            BorderRadius.circular(20),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             title,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: isPrimary ? Colors.white : Colors.black,
+              color: isPrimary
+                  ? Colors.white
+                  : Colors.black,
             ),
           ),
           const SizedBox(height: 10),
@@ -209,7 +270,9 @@ class ProjectCard extends StatelessWidget {
             desc,
             style: TextStyle(
               fontSize: 16,
-              color: isPrimary ? Colors.white70 : Colors.black87,
+              color: isPrimary
+                  ? Colors.white70
+                  : Colors.black87,
             ),
           ),
         ],
