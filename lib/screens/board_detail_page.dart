@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'chat_page.dart';
+import 'share_board_page.dart';
 
 class BoardDetailPage extends StatefulWidget {
   final String title;
@@ -15,6 +17,56 @@ class BoardDetailPage extends StatefulWidget {
 
 class _BoardDetailPageState
     extends State<BoardDetailPage> {
+
+  List<String> lists = [];
+  final TextEditingController listController =
+      TextEditingController();
+
+  void showAddListDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            "Add List",
+            style: TextStyle(color: Colors.deepPurple),
+          ),
+          content: TextField(
+            controller: listController,
+            decoration: const InputDecoration(
+              hintText: "Enter list title",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+              ),
+              onPressed: () {
+                if (listController.text.isNotEmpty) {
+                  setState(() {
+                    lists.add(listController.text);
+                  });
+                  listController.clear();
+                }
+                Navigator.pop(context);
+              },
+              child: const Text("Add"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   bool showCard = false;
 
@@ -40,7 +92,6 @@ class _BoardDetailPageState
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
                 const Text(
                   "Create Card",
                   style: TextStyle(
@@ -51,9 +102,7 @@ class _BoardDetailPageState
                         Colors.deepPurple,
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 TextField(
                   controller:
                       cardTitleController,
@@ -73,14 +122,11 @@ class _BoardDetailPageState
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(
                         context);
-
                     setState(() {
                       showCard = true;
                     });
@@ -120,349 +166,247 @@ class _BoardDetailPageState
     );
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: const Color(0xFF7F7FD5),
-    body: Column(
-      children: [
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF7F7FD5),
+      body: Column(
+        children: [
 
-        /// ================= HEADER =================
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 60,
-          ),
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-
-              /// Title + Chat Icon
-              Row(
-                mainAxisAlignment:
-                    MainAxisAlignment
-                        .spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.title
-                          .toUpperCase(),
-                      style:
-                          const TextStyle(
-                        fontSize: 36,
-                        fontWeight:
-                            FontWeight.bold,
-                        color:
-                            Colors.white,
-                      ),
-                    ),
-                  ),
-                  const Icon(
-                    Icons.chat_bubble_outline,
-                    color: Colors.white,
-                    size: 28,
-                  )
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              /// Share Button
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisSize:
-                      MainAxisSize.min,
-                  children: const [
-                    Icon(
-                      Icons.person,
-                      color:
-                          Colors.deepPurple,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      "Share",
-                      style: TextStyle(
-                        color:
-                            Colors.deepPurple,
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-
-        /// ================= BODY =================
-        Expanded(
-          child: Container(
+          /// ================= HEADER =================
+          Container(
             width: double.infinity,
-            padding:
-                const EdgeInsets.all(24),
-            decoration:
-                const BoxDecoration(
-              color: Color(0xFFEFEFEF),
-              borderRadius:
-                  BorderRadius.vertical(
-                top:
-                    Radius.circular(30),
-              ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 60,
             ),
             child: Column(
               crossAxisAlignment:
-                  CrossAxisAlignment
-                      .start,
+                  CrossAxisAlignment.start,
               children: [
 
-                /// ADD CARD BUTTON
-                Container(
-                  padding:
-                      const EdgeInsets
-                          .symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  decoration:
-                      BoxDecoration(
-                    color: const Color(
-                        0xFFDADAF7),
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                12),
-                  ),
-                  child: const Text(
-                    "+ Add Card",
-                    style: TextStyle(
-                      color:
-                          Colors.deepPurple,
-                      fontWeight:
-                          FontWeight.bold,
+                Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment
+                          .spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.title
+                            .toUpperCase(),
+                        style:
+                            const TextStyle(
+                          fontSize: 36,
+                          fontWeight:
+                              FontWeight.bold,
+                          color:
+                              Colors.white,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                const ChatPage(),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            const ShareBoardPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.circular(
+                              12),
+                    ),
+                    child: Row(
+                      mainAxisSize:
+                          MainAxisSize.min,
+                      children: const [
+                        Icon(
+                          Icons.person,
+                          color:
+                              Colors.deepPurple,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Share",
+                          style: TextStyle(
+                            color:
+                                Colors.deepPurple,
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-
-                const SizedBox(
-                    height: 25),
-
-                /// CARD (STATIS SESUAI GAMBAR)
-                Container(
-                  padding:
-                      const EdgeInsets
-                          .all(20),
-                  decoration:
-                      BoxDecoration(
-                    color: const Color(
-                        0xFFDADAF7),
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
-                    children: [
-
-                      const Text(
-                        "Konsep dan deskripsi aplikasi",
-                        style:
-                            TextStyle(
-                          fontSize: 22,
-                          fontWeight:
-                              FontWeight
-                                  .bold,
-                          color: Colors
-                              .deepPurple,
-                        ),
-                      ),
-
-                      const SizedBox(
-                          height: 20),
-
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment
-                                .spaceBetween,
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              "Mencari konsep aplikasi dan salin ke word",
-                              style:
-                                  TextStyle(
-                                fontSize:
-                                    16,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons
-                                .radio_button_unchecked,
-                            color: Colors
-                                .deepPurple,
-                          )
-                        ],
-                      ),
-
-                      const SizedBox(
-                          height: 20),
-
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment
-                                .spaceBetween,
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              "Mencari deskripsi aplikasi dan salin ke word",
-                              style:
-                                  TextStyle(
-                                fontSize:
-                                    16,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons
-                                .check_circle,
-                            color: Colors
-                                .deepPurple,
-                          )
-                        ],
-                      ),
-
-                      const SizedBox(
-                          height: 20),
-
-                      Container(
-                        padding:
-                            const EdgeInsets
-                                .symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        decoration:
-                            BoxDecoration(
-                          color: Colors
-                              .deepPurple,
-                          borderRadius:
-                              BorderRadius
-                                  .circular(
-                                      20),
-                        ),
-                        child: const Text(
-                          "+ Add List",
-                          style:
-                              TextStyle(
-                            color: Colors
-                                .white,
-                            fontWeight:
-                                FontWeight
-                                    .bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-
-                const SizedBox(
-                    height: 20),
-
-                /// CARD 2 (DESAIN UI/UX)
-                Container(
-                  padding:
-                      const EdgeInsets
-                          .all(20),
-                  decoration:
-                      BoxDecoration(
-                    color: const Color(
-                        0xFFDADAF7),
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
-                    children: const [
-
-                      Text(
-                        "Desain ui/ux",
-                        style:
-                            TextStyle(
-                          fontSize: 22,
-                          fontWeight:
-                              FontWeight
-                                  .bold,
-                          color: Colors
-                              .deepPurple,
-                        ),
-                      ),
-
-                      SizedBox(
-                          height: 20),
-
-                      /// Add List Button
-                      DecoratedBox(
-                        decoration:
-                            BoxDecoration(
-                          color: Colors
-                              .deepPurple,
-                          borderRadius:
-                              BorderRadius
-                                  .all(
-                                      Radius.circular(
-                                          20)),
-                        ),
-                        child: Padding(
-                          padding:
-                              EdgeInsets
-                                  .symmetric(
-                            horizontal:
-                                20,
-                            vertical:
-                                10,
-                          ),
-                          child: Text(
-                            "+ Add List",
-                            style:
-                                TextStyle(
-                              color: Colors
-                                  .white,
-                              fontWeight:
-                                  FontWeight
-                                      .bold,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
           ),
-        )
-      ],
-    ),
-  );
-}
+
+          /// ================= BODY =================
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.all(24),
+              decoration:
+                  const BoxDecoration(
+                color: Color(0xFFEFEFEF),
+                borderRadius:
+                    BorderRadius.vertical(
+                  top:
+                      Radius.circular(30),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+
+                  const SizedBox(height: 25),
+
+                  /// CARD
+                  Container(
+                    padding:
+                        const EdgeInsets
+                            .all(20),
+                    decoration:
+                        BoxDecoration(
+                      color: const Color(
+                          0xFFDADAF7),
+                      borderRadius:
+                          BorderRadius
+                              .circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                      children: [
+
+                        const Text(
+                          "Konsep dan deskripsi aplikasi",
+                          style:
+                              TextStyle(
+                            fontSize: 22,
+                            fontWeight:
+                                FontWeight.bold,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        /// ===== LIST YANG DITAMBAHKAN =====
+                        ...lists.map(
+                          (item) => Padding(
+                            padding:
+                                const EdgeInsets
+                                    .only(
+                                        bottom:
+                                            10),
+                            child: Container(
+                              width:
+                                  double.infinity,
+                              padding:
+                                  const EdgeInsets
+                                      .all(12),
+                              decoration:
+                                  BoxDecoration(
+                                color:
+                                    Colors.white,
+                                borderRadius:
+                                    BorderRadius
+                                        .circular(
+                                            12),
+                              ),
+                              child: Text(
+                                item,
+                                style:
+                                    const TextStyle(
+                                        fontSize:
+                                            16),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        /// BUTTON ADD LIST
+                        GestureDetector(
+                          onTap:
+                              showAddListDialog,
+                          child: Container(
+                            padding:
+                                const EdgeInsets
+                                    .symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            decoration:
+                                BoxDecoration(
+                              color: Colors
+                                  .deepPurple,
+                              borderRadius:
+                                  BorderRadius
+                                      .circular(
+                                          20),
+                            ),
+                            child:
+                                const Text(
+                              "+ Add List",
+                              style:
+                                  TextStyle(
+                                color: Colors
+                                    .white,
+                                fontWeight:
+                                    FontWeight
+                                        .bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
