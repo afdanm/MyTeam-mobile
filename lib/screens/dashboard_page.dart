@@ -1,8 +1,161 @@
 import 'package:flutter/material.dart';
 import 'account_page.dart';
+import 'board_detail_page.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() =>
+      _DashboardPageState();
+}
+
+class _DashboardPageState
+    extends State<DashboardPage> {
+        final TextEditingController
+      boardNameController =
+      TextEditingController();
+
+  final TextEditingController
+      boardDescController =
+      TextEditingController();
+
+  void showAddBoardDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(25),
+          ),
+          child: Container(
+            padding:
+                const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color:
+                  const Color(0xFFDADAF7),
+              borderRadius:
+                  BorderRadius.circular(
+                      25),
+            ),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min,
+              children: [
+
+                const Text(
+                  "Create Board",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight:
+                        FontWeight.bold,
+                    color:
+                        Colors.deepPurple,
+                  ),
+                ),
+
+                const SizedBox(
+                    height: 20),
+
+                TextField(
+                  controller:
+                      boardNameController,
+                  decoration:
+                      InputDecoration(
+                    hintText: "Name",
+                    filled: true,
+                    fillColor:
+                        Colors.white,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                                  15),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                    height: 15),
+
+                TextField(
+                  controller:
+                      boardDescController,
+                  maxLines: 3,
+                  decoration:
+                      InputDecoration(
+                    hintText:
+                        "Board Description",
+                    filled: true,
+                    fillColor:
+                        Colors.white,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                                  15),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                    height: 20),
+
+                ElevatedButton(
+                  onPressed: () {
+
+                    Navigator.pop(
+                        context);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BoardDetailPage(
+                          title:
+                              boardNameController
+                                  .text,
+                        ),
+                      ),
+                    );
+                  },
+                  style:
+                      ElevatedButton
+                          .styleFrom(
+                    backgroundColor:
+                        Colors
+                            .deepPurple,
+                    padding:
+                        const EdgeInsets
+                            .symmetric(
+                      horizontal: 40,
+                      vertical: 12,
+                    ),
+                    shape:
+                        RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                                  15),
+                    ),
+                  ),
+                  child: const Text(
+                    "Save Board",
+                    style: TextStyle(
+                        color:
+                            Colors.white),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +258,9 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
+                    GestureDetector(
+                      onTap: showAddBoardDialog,
+                      child: Container(
                       padding:
                           const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -123,12 +278,14 @@ class DashboardPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ),
+                    ),
                   ],
                 ),
               ],
             ),
           ),
+          
 
           /// ================= BODY =================
           Expanded(
